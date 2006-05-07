@@ -1,0 +1,270 @@
+<html>
+<head>
+<title>取名字最佳筆劃產生器 v0.0.2.3</title>
+<meta http-equiv="Content-Type" content="text/html; charset=big5">
+<style>
+h1 { font-size:16px; font-weight:bold;}
+h2 { font-size:14px; font-weight:bold;}
+body { font-size:12px; }
+#Query1, #Query2 { display:inline; }
+fieldset legend { font-size:14px; font-weight:bold; }
+</style>
+
+<script language="javascript">
+
+	var bb1 = ",1,3,5,6,7,8,11,13,15,16,17,18,21,23,24,25,29,31,32,33,35,37,39,41,45,47,48,52,57,61 63 65,67,68,81,";
+	var bb2 = ",26,27,30,38,40,42,43,49,50,51,53,55,58,71,73,75,77,78,80,";
+	var bb3 = ",2,4,9,10,12,14,19,20,22,28,34,36,44,46,54,56,59,60,62,64,66,69,70,72,74,76,79,";
+
+	var ts3g = ",木木木,木木火,木木土,木火木,木火火,木土火,木土土,木水木,"+
+			"火木木,火木火,火木土,火火木,火火土,火土火,火土土,火土金,"+
+			"土火木,土火火,土火土,土土火,土土土,土土金,土金土,土金金,"+
+			"金土火,金土土,金土金,金金土,金水金,"+
+			"水木木,水木土,水金土,";				
+	var ts3n = ",木火土,土金水,土木火,土木木,水木火,";
+
+function CalName()
+{
+	var i3, i4;
+	var n1, n2, n3, n4; //姓1 姓2 名1 名2
+	var g1, g2, g3, g4, ga; //天 人 地 外 總
+	var gt;
+	
+	var NameCountList = document.getElementById("NameCountList");
+	n1 = parseInt(document.getElementById("Name1").value);
+	n2 = parseInt(document.getElementById("Name2").value);
+	//if(n1==0) n1=1;
+	NameCountList.innerHTML = "";
+	for(i3=1; i3<=20; i3++)
+	{
+		for(i4=1; i4<=20; i4++)
+		{
+			//init
+			n3 = i3;
+			n4 = i4;
+			//計算五格
+			g1 = n1+n2;
+			g2 = n2+n3;
+			g3 = n3+n4;
+			g4 = n1+n4;
+			ga = n1+n2+n3+n4;
+			if(n1==0) {g1++; g4++;}
+
+			//八十一吉凶數
+			if(g2 > 80) gt=g2-80; else gt=g2;
+			if(bb1.indexOf(","+gt+",") != -1)
+			{
+				if(g3 > 80) gt=g3-80; else gt=g3;
+				if(bb1.indexOf(","+gt+",") != -1)
+				{
+					if(g4 > 80) gt=g4-80; else gt=g4;
+					if(bb1.indexOf(","+gt+",") != -1)
+					{
+						if(ga > 80) gt=ga-80; else gt=ga;
+						if(bb1.indexOf(","+gt+",") != -1)
+						{
+							NameCountList.innerHTML += "姓名筆劃："+ n1 +" "+ n2 +" "+ n3 +" "+ n4 +"，　五格：天格-"+ g1+Convert5s(g1) +" 人格-"+ g2+Convert5s(g2) +" 地格-"+ g3+Convert5s(g3) +" 外格-"+ g4+Convert5s(g4) +" 總格-"+ ga+Convert5s(ga) +"，　三才配置-" + Convert3Ts(Convert5s(g1)+Convert5s(g2)+Convert5s(g3)) + "<br />";
+						}
+					}
+				}
+			}	
+				
+			//if(bb1.indexOf(" "+g2+",") != -1 && bb1.indexOf(" "+g3+",") != -1 && bb1.indexOf(" "+g4+",") != -1 && bb1.indexOf(" "+ga+",") != -1)
+			//	NameCountList.innerHTML += "姓名筆劃："+ n1 +" "+ n2 +" "+ n3 +" "+ n4 +" 五格："+ g1 +" "+ g2 +" "+ g3 +" "+ g4 +" "+ ga +"<br />";
+			
+		}
+	}
+	NameCountList.innerHTML += "完成<br />";
+}
+
+function CalOldName()
+{
+	var n1, n2, n3, n4; //姓1 姓2 名1 名2
+	var g1, g2, g3, g4, ga; //天 人 地 外 總
+	var gt;
+
+	var NameCountList = document.getElementById("NameCountList");
+	n1 = parseInt(document.getElementById("OldName1").value);
+	n2 = parseInt(document.getElementById("OldName2").value);
+	n3 = parseInt(document.getElementById("OldName3").value);
+	n4 = parseInt(document.getElementById("OldName4").value);
+
+	//計算五格
+	g1 = n1+n2;
+	g2 = n2+n3;
+	g3 = n3+n4;
+	g4 = n1+n4;
+	ga = n1+n2+n3+n4;
+	if(n1==0) {g1++; g4++;}
+	//八十一吉凶數
+	NameCountList.innerHTML = "姓名筆劃："+ n1 +" "+ n2 +" "+ n3 +" "+ n4 +"<br />" +
+		"五格：<br/>天格-"+ ConvertGB(g1)+g1+Convert5s(g1) +"<br/>人格-"+ ConvertGB(g2)+g2+Convert5s(g2) +"<br/>地格-"+ ConvertGB(g3)+g3+Convert5s(g3) +"<br/>外格-"+ ConvertGB(g4)+g4+Convert5s(g4) +"<br/>總格-"+ ConvertGB(ga)+ga+Convert5s(ga) +"<br />";
+}
+/*查筆劃吉凶*/
+function ConvertGB(g)
+{
+	var hr;
+	if(g > 80) g=g-80;
+	if(bb1.indexOf(","+g+",") != -1) hr = "吉";
+	if(bb2.indexOf(","+g+",") != -1) hr = "吉帶凶";
+	if(bb3.indexOf(","+g+",") != -1) hr = "凶";
+	return hr;
+}
+/*五格查五行*/
+function Convert5s(g)
+{
+	var s5 = new Array('水','木','木','火','火','土','土','金','金','水');
+	return s5[g%10];
+}
+/*三才配置*/
+function Convert3Ts(ts3)
+{
+	var hr = "";
+	if(ts3g.indexOf(","+ts3+",") != -1) hr = "吉";
+	else if(ts3n.indexOf(","+ts3+",") != -1) hr = "中平";
+	return hr;
+}
+</script>
+</head>
+<body>
+<h1>取名字最佳筆劃產生器 v0.0.2.3 2006/04/25</h1><br />
+<h2>「名字最佳筆劃」意思是，五格全部符合八十一吉凶數的吉數</h2><br />
+
+<fieldset>
+<legend>作者資訊</legend>
+作者：<a href="http://rt.openfoundry.org/Foundry/User/?SearchType=User&User=58906">wangaguo</a><br />
+您可以<a href="http://rt.openfoundry.org/Foundry/Project/Tracker/?Queue=549">在這裏</a>提供意見及需求，如果我有空的話．．．<br />
+想參與改進請加入 "<a href="http://rt.openfoundry.org/Foundry/Project/?Queue=549">我要取名字</a>" 專案．<br />
+</fieldset>
+
+<hr />
+
+<fieldset>
+<legend>取名字的知識</legend>
+取名字需要了解的 1.「五格三才」2.「八十一吉凶數」3.「五行相生」4.「三才配置」，參考<a href="http://4baby.hypermart.net/name/name.htm">嬰兒網－算筆劃取個好名字</a><br />
+要注某些部首的字，要依原形的筆劃計算，參考<a href="http://4baby.hypermart.net/name/c/how5.htm">嬰兒網－取名字的第一步</a><br />
+查看筆劃吉凶　<a href="http://you168.idv.tw/lm04.htm">命名筆劃吉凶參考</a><br />
+查字的筆劃 <a href="http://www.cns11643.gov.tw/seeker/index.jsp">漢字庫</a> <a href="http://www.cns11643.gov.tw/">全字庫</a><br />
+查字的意思 <a href="http://140.111.34.46/dict/">國語辭典</a> <a href="http://140.111.1.43/">國語小字典</a><br />
+</fieldset>
+
+<fieldset>
+<legend>取名字的步驟</legend>
+１．先查詢姓的筆劃。
+２．使用「取名字最佳筆劃產生器」。
+３．選擇好的「三才配置」，及喜歡的筆劃。
+４．依筆劃去找出名字的組合。
+</fieldset>
+
+<hr>
+
+<fieldset id="Query1">
+<legend>查詢取名字最佳筆劃</legend>
+請填入姓的筆劃，單姓請在「姓1」補上0<br />
+姓1
+<input id="Name1" type="text" value="0" maxlength="2" style="width:20px;" />
+姓2
+<input id="Name2" type="text" value="" maxlength="2" style="width:20px;" />
+<input type="button" value="找" onclick="CalName();" />
+</fieldset>
+<fieldset id="Query2">
+<legend>查詢名字取的好不好</legend>
+請填入姓名的筆劃，單姓請在「姓1」補上0，單名在「名2」填0<br />
+姓1
+<input id="OldName1" type="text" value="0" maxlength="2" style="width:20px;" />
+姓2
+<input id="OldName2" type="text" value="" maxlength="2" style="width:20px;" />
+名1
+<input id="OldName3" type="text" value="" maxlength="2" style="width:20px;" />
+名2
+<input id="OldName4" type="text" value="0" maxlength="2" style="width:20px;" />
+<input type="button" value="查" onclick="CalOldName();" />
+</fieldset>
+<fieldset>
+<legend>查詢結果顯示</legend>
+<div id="NameCountList">
+
+</div>
+</fieldset>
+
+
+
+<pre>
+中文姓名產生器 v3.3 http://www.richyli.com/name/index.asp
+夢幻筆名產生器 http://www.richyli.com/name/novel.asp
+＃參考網址
+百合命相廣場 http://www.lead.idv.tw
+命 名 筆 劃 吉 凶 參 考 http://you168.idv.tw/lm04.htm
+嬰兒網 http://4baby.hypermart.net/name/name.htm
+非常姓名網 http://veryname.msn.com.tw/?PHPSESSID=da0e992488c2d8a652610d2357701700
+漢字庫 http://www.cns11643.gov.tw/seeker/index.jsp
+
+以下內容出處為嬰兒網，是否能在這裏使用還沒研究，請先行了解．
+
+(一)何謂五格
+天陽地陰，交相協調，是萬象造化之理，人處天地間，姓名亦分類為天人地三格(或三才)；而凡物有內有外，有分有合，基此而定外格與總格，完成姓名之五格。姓為天格，名為地格，姓與名合為人格，其全數約總格，總格扣除人格所餘者為外格。
+天格：是承傳自祖先，可以看作對父母、師長、長上之關係。
+人格：乃姓名之中心，「主運」，關係一生之命運，代表自己內在的中心命運，亦是五格中最重要的部份。
+地格：是名之全數，亦稱「前運」，司中年前之運勢，又可以看作兄弟、妻女與部下之關係。
+外格：支配力次與主運，亦稱「副運」，可看作本人對家族緣社會關係或的深淺。
+總格：是姓名全部合起之總數，主運中年與晚年，也稱「後運」，主外在。
+
+(二)何謂三才
+所謂三才，就是指五格中的「天格、人格、地格」。在三才五格的命名格式中，以天格、人格、地格之三才格式最重要，因為天地人三才為一體、相互關連。
+其中天格受限於姓氏與生俱來，無法改變，但人格、地格卻是可以預作搭配的。人格是所有中最為重要的，因為人格是姓名的中心所在，應最優先考慮。再來地格次要，最後再以總格、外格配合。
+
+＃八十一數之靈動
+吉數：
+	1(天地開泰),3(進取如意),5(福祿壽長),6(安穩餘慶),7(剛毅果斷),8(意志堅強),11(挽回家運),13(智略超群),15(福壽拱照),16(貴人得助),17(突破萬難),18(有志竟成),
+	21(明月光照),23(旭日東昇),24(家門餘慶),25(資惟英敏),29(慾望無涯),31(智勇得志),32(僥倖所得),33(家門隆昌),35(溫和平安),37(威權顯達),39(富貴榮華),
+	41(德望高大),45(新生泰選),47(開花結子),48(有德且智),52(先見之明),57(寒雪青松),61(名利雙收),63(榮達富貴),65(富貴長壽),67(利路亨通),
+	68(興家利業),81(還元重福).
+	1, 3, 5, 6, 7, 8, 11, 13, 15, 16, 17, 18, 21, 23, 24, 25, 29, 31, 32, 33, 35, 37, 39, 41, 45, 47, 48, 52, 57, 61 63 65, 67, 68, 81
+中平數：
+	26,27,30,38,40,42,43,49,50,51,53,55,58,71,73,75,77,78,80,
+凶數：
+	2,4,9,10,12,14,19,20,22,28,34,36,44,46,54,56,59,60,62,64,66,69,70,72,74,76,79
+八十一數之輪動，乃是以八十數為一單位，81起還本歸元 = 1, 如83劃-80=3劃
+
+(一)五行
+五行是中國命理學的基調，宇宙萬物概分五類 (木  火  土  金   水)，彼此交相影響，存在正負良惡的互動關係，因而衍生循環不息。五行的關係有：
+相生：木生火  火生土  土生金  金生水   水生木
+相剋：木剋土  土剋水  水剋火  火剋金    金剋木
+相和：木同木  火同火  土同土  金同金    水同水
+五行關係以相生為佳，相和次之，相剋為厄。應用在命名學上亦同。
+
+(二)五行數理表
+各數字的尾數為1,2者，屬性為木；各數字的尾數為3,4者，屬性為火；各數字的尾數為5,6者，屬性為土；各數字的尾數為7, 8者，屬性為金；各數字的尾數為9,0者，屬性為水。
+五行 	木 		火 		土 		金 		水
+數理 	1 	2 	3 	4 	5 	6 	7 	8 	9 	10
+陰陽 	陽 	陰 	陽 	陰 	陽 	陰 	陽 	陰 	陽 	陰
+天干 	甲 	乙 	丙 	丁 	戊 	己 	庚 	辛 	壬 	癸
+
+應用在命名筆劃上，可以套用五行數理，得知在五行上的屬性，進而以生剋原理推得三才五格的配置，並求得最佳意涵。
+
+
+＃三才的配置
+
+怎麼樣「三才」才配得好呢？
+
+當「天格 人格 地格」三才格式符合五行相生相助，而不相剋時，就相當理想。
+三才相生的配置有：天格生人格，人格生地格，人格生天格，地格生人格。
+三才相剋的配置有：天格剋人格，人格剋地格，人格剋天格，地格剋人格。
+
+我們來看看，符合三才配置屬於五行相生(至少相和)的吉數有以下幾種：
+天格 	吉											中平
+木 	木木木, 木木火, 木木土, 木火木, 木火火, 木土火, 木土土, 木水木, 	木火土,
+火 	火木木, 火木火, 火木土, 火火木, 火火土, 火土火, 火土土, 火土金, 	　
+土 	土火木, 土火火, 土火土, 土土火, 土土土, 土土金, 土金土, 土金金, 	土金水,土木火土木木
+金 	金土火, 金土土, 金土金, 金金土, 金水金, 	　
+水 	水木木, 水木土, , 水金土, 							水木火
+
+所以您可以依您的天格找出理想的人格、地格配置。
+如果生辰八字中欠缺木，則取名時，使人格、地格，或者總格、外格數配成l、2為木的數理，可補先天之不足。如果八字欠缺火，3、或4均為火的數理，若在人格、地格，或者總格、外格以火為配置重點，補先天之不足，就很成功。同理類推。
+
+＃音靈五行
+常有人問到，字的「發音五行」（也就是「音靈五行」）到底重不重要？其實，字的「發音五行」是不重要的！
+</pre>
+
+</body>
+</html>
