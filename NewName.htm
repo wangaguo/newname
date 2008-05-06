@@ -1,7 +1,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
 <html>
 <head>
-<title>取名字最佳筆劃產生器 v1.5.5.0</title>
+<title>取名字最佳筆劃產生器 v1.6.0.0</title>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
 <meta http-equiv="Content-Language" content="ZH-TW" />
 <meta name="keywords" content="命名, 寶寶, Baby, 取名字, 筆劃, 五格, 三才, 八十一吉數, 自由軟體鑄造場, OSSF, OpenFoundry, 專案開發平台" />
@@ -18,6 +18,7 @@
 	a { font-weight:bold; }
 	h1 { font-size:16px; font-weight:bold;}
 	h2 { font-size:14px; font-weight:bold;}
+	em { font-style:normal; color:#dd0000; }
 	body { font-size:12px; }
 	#Query1, #Query2 { display:inline; }
 	fieldset { background-color:#EFF6FF; }
@@ -149,25 +150,30 @@ function OnLoad()
 	Monitor = document.getElementById("Monitor"); //結果顯示框
 }
 
+function trim(str) { return str.replace(/^[\s]*|[\s]*$/g, ""); }
+
 /*找字的筆劃*/
 function FindStroke()
 {
-	var word = document.getElementById("word").value;
-	eval('a = document.getElementById("WordDB").innerHTML.match(/' + word + '(\\d*)/);');
-	if(a != null) Monitor.innerHTML = word + " " + a[a.length-1] + "劃";
-	/*
-	i: ignoreCase 忽略大小?
-	g: global 全局 
-	*/
+	var word = trim(document.getElementById("word").value).split('');
+	//alert(word.length);
+	if(word.length == 0) {alert('請輸入查詢的字, 可以是多個字'); return;}
+	Monitor.innerHTML = "";
+	for(i=0; i<word.length; i++)
+	{
+		eval('a = document.getElementById("WordDB").innerHTML.match(/\\s' + word[i] + '(\\d*)/);');
+		if(a != null) Monitor.innerHTML += word[i] + " " + a[a.length-1] + "劃<br/>";
+	}
 }
 
 /*找注音的字*/
 function FindWordByPhonetic()
 {
-	Monitor.innerHTML = "";
-	var word = document.getElementById("word").value;
-	eval('a = document.getElementById("WordDB").innerHTML.match(/' + word + '(.*)/g);');
+	var word = trim(document.getElementById("word").value);
+	if(word == "") {alert('請輸入查詢的注音, 可以是不完整的'); return;}
+	eval('a = document.getElementById("WordDB").innerHTML.match(/^' + word + '(.*)/g);');
 	
+	Monitor.innerHTML = "";
 	for(i=0; i<a.length; i++) 
 		Monitor.innerHTML += a[i] + "<br/>";
 }
@@ -175,10 +181,11 @@ function FindWordByPhonetic()
 /*找筆劃的字*/
 function FindWordByStroke()
 {
-	Monitor.innerHTML = "";
-	var word = document.getElementById("word").value;
-	eval('a = document.getElementById("WordDB").innerHTML.match(/(.)\\D' + word + '/g);');
+	var word = trim(document.getElementById("word").value);
+	if(word == "") return;
+	eval('a = document.getElementById("WordDB").innerHTML.match(/(.\\D)' + word + '\\D/g);');
 
+	Monitor.innerHTML = "";
 	for(i=0; i<a.length; i++)
 		Monitor.innerHTML += a[i] + " ";
 }
@@ -193,11 +200,12 @@ function ShowDesc(id)
 </head>
 
 <body onload="OnLoad();">
-<h1>取名字最佳筆劃產生器 v1.5.5.0 2007/02/03</h1>
+<h1>取名字最佳筆劃產生器 v1.6.0.0 2007/02/06</h1>
 <h2>「名字最佳筆劃」意思是，五格全部符合八十一吉凶數的吉數</h2>
 
 <fieldset>
 <legend>說明</legend>
+<em>請至<a href="http://rt.openfoundry.org/Foundry/Project/Download/?Queue=549">下載區</a>取得最新版本</em><br/>
 取名字的<a href="javascript:ShowDesc('NameKnowledge');" >步驟與知識</a><br/>
 筆劃的<a href="javascript:ShowDesc('StrokeDesc');" >算法說明</a><br/>
 </fieldset>
@@ -258,6 +266,7 @@ function ShowDesc(id)
 
 <fieldset>
 <legend>版本記錄</legend>
+1.6.0.0 修正筆劃查詢. 增加說明<br/>
 1.5.5.0 改UTF-8編碼. 整理版型與說明<br/>
 1.5.0.0 加上筆劃查詢功能<br/>
 1.0.0.0 王建民19勝, 整理程式碼!
@@ -269,7 +278,137 @@ function ShowDesc(id)
 命名, 寶寶, Baby, 取名字, 筆劃, 五格, 三才, 八十一吉數, 自由軟體鑄造場, OSSF, OpenFoundry, 專案開發平台
 </div>
 
+<div id="NameKnowledge" style="display:none;">
+<h3>取名字的步驟</h3>
+１．先查詢姓的筆劃。
+２．使用「取名字最佳筆劃產生器」。
+３．選擇好的「三才配置」，及喜歡的筆劃。
+４．依筆劃去找出名字的組合。
 
+<h3>取名字的知識</h3>
+取名字需要了解的 1.「五格三才」2.「八十一吉凶數」3.「五行相生」4.「三才配置」
+查看筆劃吉凶　<a href="http://you168.idv.tw/lm04.htm">命名筆劃吉凶參考</a>
+查字的筆劃與發音 <a href="http://www.cns11643.gov.tw/seeker/index.jsp">漢字庫</a> <a href="http://www.cns11643.gov.tw/">全字庫</a>
+查字的意思與發音 <a href="http://140.111.34.46/dict/">國語辭典</a> <a href="http://140.111.1.43/">國語小字典</a>
+
+(一)何謂五格
+天陽地陰，交相協調，是萬象造化之理，人處天地間，姓名亦分類為天人地三格(或三才)；
+而凡物有內有外，有分有合，基此而定外格與總格，完成姓名之五格。
+姓為天格，名為地格，姓與名合為人格，其全數約總格，總格扣除人格所餘者為外格。
+
+天格：是承傳自祖先，可以看作對父母、師長、長上之關係。
+人格：乃姓名之中心，「主運」，關係一生之命運，代表自己內在的中心命運，亦是五格中最重要的部份。
+地格：是名之全數，亦稱「前運」，司中年前之運勢，又可以看作兄弟、妻女與部下之關係。
+外格：支配力次與主運，亦稱「副運」，可看作本人對家族緣社會關係或的深淺。
+總格：是姓名全部合起之總數，主運中年與晚年，也稱「後運」，主外在。
+
+(二)何謂三才
+所謂三才，就是指五格中的「天格、人格、地格」。
+在三才五格的命名格式中，以天格、人格、地格之三才格式最重要，因為天地人三才為一體、相互關連。
+其中天格受限於姓氏與生俱來，無法改變，但人格、地格卻是可以預作搭配的。
+人格是所有中最為重要的，因為人格是姓名的中心所在，應最優先考慮。
+再來地格次要，最後再以總格、外格配合。
+
+＃八十一數之靈動
+吉數：
+	1(天地開泰),3(進取如意),5(福祿壽長),6(安穩餘慶),7(剛毅果斷),8(意志堅強),
+	11(挽回家運),13(智略超群),15(福壽拱照),16(貴人得助),17(突破萬難),18(有志竟成),
+	21(明月光照),23(旭日東昇),24(家門餘慶),25(資惟英敏),29(慾望無涯),31(智勇得志),
+	32(僥倖所得),33(家門隆昌),35(溫和平安),37(威權顯達),39(富貴榮華),
+	41(德望高大),45(新生泰選),47(開花結子),48(有德且智),52(先見之明),57(寒雪青松),
+	61(名利雙收),63(榮達富貴),65(富貴長壽),67(利路亨通),
+	68(興家利業),81(還元重福).
+	1, 3, 5, 6, 7, 8, 11, 13, 15, 16, 17, 18, 21, 23, 24, 25, 29, 31, 32, 33, 35, 37, 
+	39, 41, 45, 47, 48, 52, 57, 61 63 65, 67, 68, 81
+中平數：
+	26,27,30,38,40,42,43,49,50,51,53,55,58,71,73,75,77,78,80,
+凶數：
+	2,4,9,10,12,14,19,20,22,28,34,36,44,46,54,56,59,60,62,64,66,69,70,72,74,76,79
+八十一數之輪動，乃是以八十數為一單位，81起還本歸元 = 1, 如83劃-80=3劃
+
+(一)五行
+五行是中國命理學的基調，宇宙萬物概分五類 (木  火  土  金   水)，彼此交相影響，存在正負良惡的互動關係，因而衍生循環不息。
+五行的關係有：
+相生：木生火  火生土  土生金  金生水   水生木
+相剋：木剋土  土剋水  水剋火  火剋金    金剋木
+相和：木同木  火同火  土同土  金同金    水同水
+五行關係以相生為佳，相和次之，相剋為厄。應用在命名學上亦同。
+
+(二)五行數理表
+各數字的尾數為1,2者，屬性為木；各數字的尾數為3,4者，屬性為火；
+各數字的尾數為5,6者，屬性為土；各數字的尾數為7, 8者，屬性為金；各數字的尾數為9,0者，屬性為水。
+五行 	木 		火 		土 		金 		水
+數理 	1 	2 	3 	4 	5 	6 	7 	8 	9 	10
+陰陽 	陽 	陰 	陽 	陰 	陽 	陰 	陽 	陰 	陽 	陰
+天干 	甲 	乙 	丙 	丁 	戊 	己 	庚 	辛 	壬 	癸
+
+應用在命名筆劃上，可以套用五行數理，得知在五行上的屬性，進而以生剋原理推得三才五格的配置，並求得最佳意涵。
+
+
+＃三才的配置
+
+怎麼樣「三才」才配得好呢？
+
+當「天格 人格 地格」三才格式符合五行相生相助，而不相剋時，就相當理想。
+三才相生的配置有：天格生人格，人格生地格，人格生天格，地格生人格。
+三才相剋的配置有：天格剋人格，人格剋地格，人格剋天格，地格剋人格。
+
+我們來看看，符合三才配置屬於五行相生(至少相和)的吉數有以下幾種：
+天格 	吉											中平
+木 	木木木, 木木火, 木木土, 木火木, 木火火, 木土火, 木土土, 木水木, 	木火土,
+火 	火木木, 火木火, 火木土, 火火木, 火火土, 火土火, 火土土, 火土金, 	　
+土 	土火木, 土火火, 土火土, 土土火, 土土土, 土土金, 土金土, 土金金, 	土金水,土木火土木木
+金 	金土火, 金土土, 金土金, 金金土, 金水金, 	　
+水 	水木木, 水木土, , 水金土, 							水木火
+
+所以您可以依您的天格找出理想的人格、地格配置。
+如果生辰八字中欠缺木，則取名時，使人格、地格，或者總格、外格數配成l、2為木的數理，可補先天之不足。
+如果八字欠缺火，3、或4均為火的數理，若在人格、地格，或者總格、外格以火為配置重點，補先天之不足，就很成功。
+同理類推。
+
+＃音靈五行
+常有人問到，字的「發音五行」（也就是「音靈五行」）到底重不重要？其實，字的「發音五行」是不重要的！
+</div>
+
+<!-- 
+http://www.smxw.net/xm/xmzh.htm 
+http://www.aqioo.com/article/4137,view.html
+http://www.jk126.com/news/list.asp?unid=22
+http://tw.myblog.yahoo.com/jw!e8Tv5qKYFRn0OhAZ4evjeU_x/article?mid=45&prev=47&next=42
+ -->
+<div id="StrokeDesc" style="display:none;">
+　　命理筆劃是以「康熙字典」為標準，必須要依其字的【部首】筆劃下去算，而非以字面上算得的筆劃為準。
+
+　　我國文字自產生以來，經過數千年的洗練，具有美輪美奐之偉大和微妙的體系，皆本於自然造化之法則，蘊涵奧妙之數理靈動。
+
+　　文字系由點和線構成，而一點一劃，就是啟示命運最單純之數理符號。姓名學以文字之筆畫數理測定人生命運之否泰，所以姓名之文字，其一點一劃，均不能忽視。
+
+以下是姓名學筆畫計算的一些特殊規定：
+
+一、數字：
+
+一、1劃 二、2劃 三、3劃 四、4劃 五、5劃 六、6劃
+七、7劃 八、8劃 九、9劃 十、10劃 百、6劃 千、3劃
+
+二、文字部首：
+
+?（手），提手旁，以手字計劃為四劃。
+?（心），豎心旁，以心字計劃為四劃。
+?（水），三點旁，以水字計劃為四劃。
+?（犬），犬字旁，以犬字計劃為四劃。
+?（示），半禮旁，以示字計劃為五劃。
+王（玉），斜玉旁，以玉字計劃為五劃。
+?（草），草字頭，以草字計劃為六劃。
+?（衣），衣字旁，以衣字計劃為六劃。
+月（肉），肉字旁，以肉字計劃為六劃。
+?（走），走馬旁，以走字計劃為七劃。
+?（邑），右耳旁，以邑字計劃為七劃。
+?（卓），左耳旁，以卓字計劃為八劃。
+
+　　註：以上繫以文字部首為準，如不歸類以上部首，則按實有筆畫計算。如「酒」歸「酉」部，非「水」部，仍為10畫，非11畫。「巡」歸「?」部非「走」部，仍為6畫，非10畫。
+</div>
+
+<!--81吉兇數-->
 <div id="GB81" style="display:none;">
 1 	繁榮發達 , 信用得固 , 萬人仰望 , 可獲成功 	吉
 2 	動搖不安 , 一榮一枯 , 一盛一衰 , 榮而無功 	凶
@@ -352,58 +491,6 @@ function ShowDesc(id)
 79 	如走夜路 , 前途無光 , 希望不大 , 勞而無功 	凶
 80 	得而復失 , 枉費心機 , 守成無貪 , 可保安穩 	吉帶凶
 81 	最極之數 , 還本歸元 , 能得繁榮 , 發達成功 	吉
-</div>
-
-<div id="NameKnowledge" style="display:none;">
-<h3>取名字的步驟</h3>
-１．先查詢姓的筆劃。
-２．使用「取名字最佳筆劃產生器」。
-３．選擇好的「三才配置」，及喜歡的筆劃。
-４．依筆劃去找出名字的組合。
-
-<h3>取名字的知識</h3>
-取名字需要了解的 1.「五格三才」2.「八十一吉凶數」3.「五行相生」4.「三才配置」，參考<a href="http://4baby.hypermart.net/name/name.htm">嬰兒網－算筆劃取個好名字</a><br />
-要注某些部首的字，要依原形的筆劃計算，參考<a href="http://4baby.hypermart.net/name/c/how5.htm">嬰兒網－取名字的第一步</a><br />
-查看筆劃吉凶　<a href="http://you168.idv.tw/lm04.htm">命名筆劃吉凶參考</a><br />
-查字的筆劃與發音 <a href="http://www.cns11643.gov.tw/seeker/index.jsp">漢字庫</a> <a href="http://www.cns11643.gov.tw/">全字庫</a><br />
-查字的意思與發音 <a href="http://140.111.34.46/dict/">國語辭典</a> <a href="http://140.111.1.43/">國語小字典</a><br />
-</div>
-<!-- 
-http://www.smxw.net/xm/xmzh.htm 
-http://www.aqioo.com/article/4137,view.html
-http://www.jk126.com/news/list.asp?unid=22
-http://tw.myblog.yahoo.com/jw!e8Tv5qKYFRn0OhAZ4evjeU_x/article?mid=45&prev=47&next=42
- -->
-<div id="StrokeDesc" style="display:none;">
-　　命理筆劃是以「康熙字典」為標準，必須要依其字的【部首】筆劃下去算，而非以字面上算得的筆劃為準。
-
-　　我國文字自產生以來，經過數千年的洗練，具有美輪美奐之偉大和微妙的體系，皆本於自然造化之法則，蘊涵奧妙之數理靈動。
-
-　　文字系由點和線構成，而一點一劃，就是啟示命運最單純之數理符號。姓名學以文字之筆畫數理測定人生命運之否泰，所以姓名之文字，其一點一劃，均不能忽視。
-
-以下是姓名學筆畫計算的一些特殊規定：
-
-一、數字：
-
-一、1劃 二、2劃 三、3劃 四、4劃 五、5劃 六、6劃
-七、7劃 八、8劃 九、9劃 十、10劃 百、6劃 千、3劃
-
-二、文字部首：
-
-?（手），提手旁，以手字計劃為四劃。
-?（心），豎心旁，以心字計劃為四劃。
-?（水），三點旁，以水字計劃為四劃。
-?（犬），犬字旁，以犬字計劃為四劃。
-?（示），半禮旁，以示字計劃為五劃。
-王（玉），斜玉旁，以玉字計劃為五劃。
-?（草），草字頭，以草字計劃為六劃。
-?（衣），衣字旁，以衣字計劃為六劃。
-月（肉），肉字旁，以肉字計劃為六劃。
-?（走），走馬旁，以走字計劃為七劃。
-?（邑），右耳旁，以邑字計劃為七劃。
-?（卓），左耳旁，以卓字計劃為八劃。
-
-　　註：以上繫以文字部首為準，如不歸類以上部首，則按實有筆畫計算。如「酒」歸「酉」部，非「水」部，仍為10畫，非11畫。「巡」歸「?」部非「走」部，仍為6畫，非10畫。
 </div>
 
 <!-- 常用字筆劃查詢 http://www.ira.org.tw/Fate/23.htm -->
