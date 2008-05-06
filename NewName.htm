@@ -1,18 +1,32 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
 <html>
 <head>
-<title>取名字最佳筆劃產生器 v1.5.0.0</title>
-<meta http-equiv="Content-Type" content="text/html; charset=biG5"/>
+<title>取名字最佳筆劃產生器 v1.5.5.0</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<meta http-equiv="Content-Language" content="ZH-TW" />
+<meta name="keywords" content="命名, 寶寶, Baby, 取名字, 筆劃, 五格, 三才, 八十一吉數, 自由軟體鑄造場, OSSF, OpenFoundry, 專案開發平台" />
+<meta name="description" content="取名字最佳筆劃產生器,「名字最佳筆劃」意思是，五格全部符合八十一吉凶數的吉數" />
+<meta name="author" content="wangaguo" />
+<meta name="content-author" content="中國人" />
+<meta name="code-author" content="wangaguo" />
+<meta name="distribution" content="Global" />
+<meta name="robots" content="FOLLOW,INDEX" />
+<meta name="content-license" content="" />
+<meta name="code-license" content="GPL" />
+
 <style type="text/css">
-h1 { font-size:16px; font-weight:bold;}
-h2 { font-size:14px; font-weight:bold;}
-body { font-size:12px; }
-#Query1, #Query2 { display:inline; }
-fieldset legend { font-size:14px; font-weight:bold; }
+	a { font-weight:bold; }
+	h1 { font-size:16px; font-weight:bold;}
+	h2 { font-size:14px; font-weight:bold;}
+	body { font-size:12px; }
+	#Query1, #Query2 { display:inline; }
+	fieldset { background-color:#EFF6FF; }
+	fieldset legend { font-size:14px; font-weight:bold; color:#1B426F; }
+	input.button { background-color:#A4C6EF; }
 </style>
 
-<script language="javascript" type="text/javascript">
-
+<script type="text/javascript">
+<!--
 //八十一吉數
 var bb1 = ",1,3,5,6,7,8,11,13,15,16,17,18,21,23,24,25,29,31,32,33,35,37,39,41,45,47,48,52,57,61 63 65,67,68,81,";
 var bb2 = ",26,27,30,38,40,42,43,49,50,51,53,55,58,71,73,75,77,78,80,";
@@ -125,8 +139,10 @@ function Convert3Ts(ts3)
 	else if(ts3n.indexOf(","+ts3+",") != -1) hr = "中平";
 	return hr;
 }
+-->
 </script>
-<script language="javascript" type="text/javascript">
+<script type="text/javascript">
+<!--
 var Monitor;
 function OnLoad()
 {
@@ -166,37 +182,36 @@ function FindWordByStroke()
 	for(i=0; i<a.length; i++)
 		Monitor.innerHTML += a[i] + " ";
 }
+
+/*顯示說明*/
+function ShowDesc(id)
+{
+	Monitor.innerHTML = "<pre>" + document.getElementById(id).innerHTML + "</pre>";
+}
+-->
 </script>
 </head>
 
 <body onload="OnLoad();">
-<h1>取名字最佳筆劃產生器 v1.5.0.0 2007/02</h1><br />
-<h2>「名字最佳筆劃」意思是，五格全部符合八十一吉凶數的吉數</h2><br />
+<h1>取名字最佳筆劃產生器 v1.5.5.0 2007/02/03</h1>
+<h2>「名字最佳筆劃」意思是，五格全部符合八十一吉凶數的吉數</h2>
 
 <fieldset>
-<legend>取名字的知識</legend>
-取名字需要了解的 1.「五格三才」2.「八十一吉凶數」3.「五行相生」4.「三才配置」，參考<a href="http://4baby.hypermart.net/name/name.htm">嬰兒網－算筆劃取個好名字</a><br />
-要注某些部首的字，要依原形的筆劃計算，參考<a href="http://4baby.hypermart.net/name/c/how5.htm">嬰兒網－取名字的第一步</a><br />
-查看筆劃吉凶　<a href="http://you168.idv.tw/lm04.htm">命名筆劃吉凶參考</a><br />
-查字的筆劃與發音 <a href="http://www.cns11643.gov.tw/seeker/index.jsp">漢字庫</a> <a href="http://www.cns11643.gov.tw/">全字庫</a><br />
-查字的意思與發音 <a href="http://140.111.34.46/dict/">國語辭典</a> <a href="http://140.111.1.43/">國語小字典</a><br />
-</fieldset>
-
-<fieldset>
-<legend>取名字的步驟</legend>
-１．先查詢姓的筆劃。
-２．使用「取名字最佳筆劃產生器」。
-３．選擇好的「三才配置」，及喜歡的筆劃。
-４．依筆劃去找出名字的組合。
+<legend>說明</legend>
+取名字的<a href="javascript:ShowDesc('NameKnowledge');" >步驟與知識</a><br/>
+筆劃的<a href="javascript:ShowDesc('StrokeDesc');" >算法說明</a><br/>
 </fieldset>
 
 <hr/>
 
 <fieldset>
 <legend>筆劃查詢</legend>
-<input id="word" type="text" size="4"/> <input type="button" value="找筆劃" onclick="FindStroke();"/>
-<input type="button" value="注音找字" onclick="FindWordByPhonetic();"/>
-<input type="button" value="筆劃找字" onclick="FindWordByStroke();"/><br />
+只包函的大部份的常用字，內容從<a href="http://www.ira.org.tw/Fate/23.htm">常用字筆劃查詢</a>來的，
+若找不到請自行計算.<br/>
+
+<input id="word" type="text" size="6"/> <input type="button" value="找筆劃" class="button" onclick="FindStroke();"/>
+<input type="button" value="注音找字" class="button" onclick="FindWordByPhonetic();"/>
+<input type="button" value="筆劃找字" class="button" onclick="FindWordByStroke();"/><br />
 </fieldset>
 
 <fieldset id="Query1">
@@ -208,7 +223,7 @@ function FindWordByStroke()
 <input id="Name2" type="text" value="" maxlength="2" style="width:20px;" />
 <br />
 名字筆劃上限<input id="maxwcount" type="text" value="20" maxlength="2" style="width:20px;" />
-<input type="button" value="找" onclick="CalName();" />
+<input type="button" value="找" class="button" onclick="CalName();" />
 </fieldset>
 
 <fieldset id="Query2">
@@ -222,13 +237,14 @@ function FindWordByStroke()
 <input id="OldName3" type="text" value="" maxlength="2" style="width:20px;" />
 名2
 <input id="OldName4" type="text" value="0" maxlength="2" style="width:20px;" />
-<input type="button" value="查" onclick="CalOldName();" />
+<input type="button" value="查" class="button" onclick="CalOldName();" />
+<br/><br/>
 </fieldset>
 
 <fieldset>
 <legend>查詢結果顯示</legend>
 <div id="Monitor">
-應觀眾要求加上查詢筆劃的功能, 只包函了常用字, 找不到的到漢字庫查!!
+<br/><br/>
 </div>
 </fieldset>
 
@@ -242,52 +258,197 @@ function FindWordByStroke()
 
 <fieldset>
 <legend>版本記錄</legend>
-1.5.0.0 加上筆劃查詢功能<br />
+1.5.5.0 改UTF-8編碼. 整理版型與說明<br/>
+1.5.0.0 加上筆劃查詢功能<br/>
 1.0.0.0 王建民19勝, 整理程式碼!
 </fieldset>
 
+<div style="display:none;">
+取名字最佳筆劃產生器
+取名字最佳筆劃產生器,「名字最佳筆劃」意思是，五格全部符合八十一吉凶數的吉數
+命名, 寶寶, Baby, 取名字, 筆劃, 五格, 三才, 八十一吉數, 自由軟體鑄造場, OSSF, OpenFoundry, 專案開發平台
+</div>
+
+
+<div id="GB81" style="display:none;">
+1 	繁榮發達 , 信用得固 , 萬人仰望 , 可獲成功 	吉
+2 	動搖不安 , 一榮一枯 , 一盛一衰 , 榮而無功 	凶
+3 	立身出世 , 有貴人助 , 天賜吉祥 , 四海名揚 	吉
+4 	日被雲遮 , 苦難折磨 , 非有毅力 , 難望成功 	凶
+5 	陰陽和合 , 精神愉快 , 榮譽達利 , 一門興隆 	吉
+6 	萬寶集門 , 天降幸運 , 立志奮發 , 得成大功 	吉
+7 	精力旺盛 , 頭腦明敏 , 排除萬難 , 必獲成功 	吉
+8 	努力發達 , 貴徹志望 , 不忘進退 , 可期成功 	吉
+9 	雖抱奇才 , 有才無命 , 獨營無力 , 財力難望 	凶
+10 	烏雲遮月 , 黯淡無光 , 空費心力 , 徒勞無功 	凶
+11 	草木逢春 , 枝葉沾露 , 穩健著實 , 必得人望 	吉
+12 	薄羽無力 , 孤立無援 , 外祥內苦 , 謀事難成 	凶
+13 	天賦吉運 , 能得人望 , 善用智慧 , 必獲成功 	吉
+14 	忍得苦難 , 必有後福 , 是成是敗 , 唯靠堅毅 	凶
+15 	謙恭做事 , 外得人和 , 大事成就 , 一門興隆 	吉
+16 	能獲眾望 , 成就大業 , 名利雙收 , 盟主四方 	吉
+17 	排除萬難 , 有貴人助 , 把握時機 , 可得成功 	吉
+18 	經商做事 , 順利昌隆 , 如能慎始 , 百事亨通 	吉
+19 	成功雖早 , 慎防虧空 , 內外不如 , 障礙重重 	凶
+20 	智高志大 , 歷盡艱難 , 焦心憂勞 , 進退兩難 	凶
+21 	先歷困苦 , 後得幸福 , 霜雪梅花 , 春來怒放 	吉
+22 	秋草逢霜 , 懷才不遇 , 憂愁怨苦 , 事不如意 	凶
+23 	旭日昇天 , 名顯四方 , 漸次進展 , 終成大業 	吉
+24 	錦繡前程 , 須靠自力 , 多用智謀 , 能奏大功 	吉
+25 	天時地利 , 只欠人和 , 講信修睦 , 即可成功 	吉
+26 	波瀾起伏 , 千變萬化 , 凌駕萬難 , 必可成功 	凶帶吉
+27 	一成一敗 , 一盛一衰 , 唯靠謹慎 , 可守成功 	吉帶凶
+28 	魚臨旱地 , 難逃惡運 , 此數大凶 , 不如更名 	凶
+29 	如龍得雲 , 青雲直上 , 智謀奮進 , 才略奏功 	吉
+30 	吉凶參半 , 得矢相伴 , 投機取巧 , 如賭一樣 	吉帶凶
+31 	此數大吉 , 名利雙收 , 漸進向上 , 大業成就 	吉
+32 	池中之龍 , 風雲際會 , 一躍上天 , 成功可望 	吉
+33 	意氣用事 , 人和必失 , 如能慎始 , 必可昌隆 	吉
+34 	災難不絕 , 難望成功 , 此數大凶 , 不如更名 	凶
+35 	處世嚴謹 , 進退保守 , 學智兼具 , 成就非凡 	吉
+36 	波瀾重疊 , 常陷窮困 , 動不如靜 , 有才無命 	凶
+37 	逢凶化吉 , 吉人天相 , 以聽取眾 , 必成大功 	吉
+38 	名雖可得 , 利財難獲 , 藝界發展 , 可望成功 	凶帶吉
+39 	雲開見月 , 雖有勞碌 , 光明坦途 , 指日可期 	吉
+40 	一盛一衰 , 浮沉不定 , 知難而退 , 自獲天佑 	吉帶凶
+41 	天賦吉運 , 德望兼備 , 繼續努力 , 前途無限 	吉
+42 	事業不專 , 十九不成 , 專心不取 , 可望成功 	吉帶凶
+43 	雨夜之花 , 外祥內苦 , 忍耐自重 , 轉凶為吉 	吉帶凶
+44 	難用心計 , 事難遂願 , 貪功好進 , 必招失敗 	凶
+45 	楊柳遇春 , 綠葉發枝 , 衝破難關 , 一舉成名 	吉
+46 	坎坷不平 , 艱難重重 , 若無耐心 , 難望有成 	凶
+47 	有貴人助 , 可成大業 , 雖遇不幸 , 浮沉不大 	吉
+48 	美花豐實 , 鶴立雞群 , 名利俱全 , 繁榮富貴 	吉
+49 	遇吉則吉 , 遇凶則凶 , 唯靠謹慎 , 逢凶化吉 	凶
+50 	吉凶互見 , 一成一敗 , 凶中自吉 , 吉中有凶 	吉帶凶
+51 	一盛一衰 , 浮沉不常 , 自重而處 , 可保平安 	吉帶凶
+52 	草木逢春 , 雨過天晴 , 渡過難關 , 即獲成功 	吉
+53 	盛衰參半 , 外祥內苦 , 先吉後凶 , 先凶後吉 	吉帶凶
+54 	雖傾全力 , 難望成功 , 此數大凶 , 最好改名 	凶
+55 	外觀隆昌 , 內隱外患 , 克服難關 , 開出泰運 	吉帶凶
+56 	事與願違 , 終難成功 , 欲速不達 , 有始無終 	凶
+57 	雖有困難 , 時來運轉 , 曠野枯草 , 春來花開 	凶帶吉
+58 	半凶半吉 , 浮吉多端 , 始凶終吉 , 能保成功 	吉帶凶
+59 	遇事猶豫 , 難望成事 , 大刀闊斧 , 始可有成 	凶
+60 	黑暗無吉 , 心迷意亂 , 出爾反爾 , 難定方針 	凶
+61 	雲遮半月 , 內隱風波 , 應自謹慎 , 始保平安 	吉帶凶
+62 	煩惱懊悔 , 事業難成 , 自防災禍 , 始免困境 	凶
+63 	萬物化育 , 繁榮之象 , 專心一意 , 必能成功 	吉
+64 	見異思遷 , 十九不成 , 徒勞無功 , 不如更名 	凶
+65 	吉運自來 , 能享盛名 , 把握機會 , 必獲成功 	吉
+66 	黑夜逝長 , 進退維谷 , 內外不和 , 信用缺乏 	凶
+67 	獨營事業 , 事事如意 , 功成名就 , 富貴自來 	吉
+68 	思慮周詳 , 計劃力行 , 不失先機 , 可望成功 	吉
+69 	動搖不安 , 常陷逆境 , 不得時運 , 難得利潤 	凶
+70 	慘淡經營 , 難免貧困 , 此數不吉 , 最好改名 	凶
+71 	吉凶參半 , 唯賴勇氣 , 貫徹力行 , 始可成功 	吉帶凶
+72 	利害混集 , 凶多吉少 , 得而復失 , 難以安順 	凶
+73 	安樂自來 , 自然吉祥 , 力行不懈 , 必能成功 	吉
+74 	利不及貴 , 坐食山空 , 如無智謀 , 難望成功 	凶
+75 	吉中帶凶 , 欲速不達 , 進不如守 , 可保安詳 	吉帶凶
+76 	此數為凶 , 破產之象 , 宜速改名 , 以避厄運 	凶
+77 	先苦後甘 , 先甘後苦 , 如能守成 , 不致失敗 	吉帶凶
+78 	有得有失 , 華而不實 , 需防劫財 , 始保安順 	吉帶凶
+79 	如走夜路 , 前途無光 , 希望不大 , 勞而無功 	凶
+80 	得而復失 , 枉費心機 , 守成無貪 , 可保安穩 	吉帶凶
+81 	最極之數 , 還本歸元 , 能得繁榮 , 發達成功 	吉
+</div>
+
+<div id="NameKnowledge" style="display:none;">
+<h3>取名字的步驟</h3>
+１．先查詢姓的筆劃。
+２．使用「取名字最佳筆劃產生器」。
+３．選擇好的「三才配置」，及喜歡的筆劃。
+４．依筆劃去找出名字的組合。
+
+<h3>取名字的知識</h3>
+取名字需要了解的 1.「五格三才」2.「八十一吉凶數」3.「五行相生」4.「三才配置」，參考<a href="http://4baby.hypermart.net/name/name.htm">嬰兒網－算筆劃取個好名字</a><br />
+要注某些部首的字，要依原形的筆劃計算，參考<a href="http://4baby.hypermart.net/name/c/how5.htm">嬰兒網－取名字的第一步</a><br />
+查看筆劃吉凶　<a href="http://you168.idv.tw/lm04.htm">命名筆劃吉凶參考</a><br />
+查字的筆劃與發音 <a href="http://www.cns11643.gov.tw/seeker/index.jsp">漢字庫</a> <a href="http://www.cns11643.gov.tw/">全字庫</a><br />
+查字的意思與發音 <a href="http://140.111.34.46/dict/">國語辭典</a> <a href="http://140.111.1.43/">國語小字典</a><br />
+</div>
+<!-- 
+http://www.smxw.net/xm/xmzh.htm 
+http://www.aqioo.com/article/4137,view.html
+http://www.jk126.com/news/list.asp?unid=22
+http://tw.myblog.yahoo.com/jw!e8Tv5qKYFRn0OhAZ4evjeU_x/article?mid=45&prev=47&next=42
+ -->
+<div id="StrokeDesc" style="display:none;">
+　　命理筆劃是以「康熙字典」為標準，必須要依其字的【部首】筆劃下去算，而非以字面上算得的筆劃為準。
+
+　　我國文字自產生以來，經過數千年的洗練，具有美輪美奐之偉大和微妙的體系，皆本於自然造化之法則，蘊涵奧妙之數理靈動。
+
+　　文字系由點和線構成，而一點一劃，就是啟示命運最單純之數理符號。姓名學以文字之筆畫數理測定人生命運之否泰，所以姓名之文字，其一點一劃，均不能忽視。
+
+以下是姓名學筆畫計算的一些特殊規定：
+
+一、數字：
+
+一、1劃 二、2劃 三、3劃 四、4劃 五、5劃 六、6劃
+七、7劃 八、8劃 九、9劃 十、10劃 百、6劃 千、3劃
+
+二、文字部首：
+
+?（手），提手旁，以手字計劃為四劃。
+?（心），豎心旁，以心字計劃為四劃。
+?（水），三點旁，以水字計劃為四劃。
+?（犬），犬字旁，以犬字計劃為四劃。
+?（示），半禮旁，以示字計劃為五劃。
+王（玉），斜玉旁，以玉字計劃為五劃。
+?（草），草字頭，以草字計劃為六劃。
+?（衣），衣字旁，以衣字計劃為六劃。
+月（肉），肉字旁，以肉字計劃為六劃。
+?（走），走馬旁，以走字計劃為七劃。
+?（邑），右耳旁，以邑字計劃為七劃。
+?（卓），左耳旁，以卓字計劃為八劃。
+
+　　註：以上繫以文字部首為準，如不歸類以上部首，則按實有筆畫計算。如「酒」歸「酉」部，非「水」部，仍為10畫，非11畫。「巡」歸「?」部非「走」部，仍為6畫，非10畫。
+</div>
+
+<!-- 常用字筆劃查詢 http://www.ira.org.tw/Fate/23.htm -->
 <div id="WordDB" style="display:none;">
-ㄅㄚ    八2   巴4   芭10
+ㄅㄚ     	八2   巴4   芭10
 ㄅㄚˊ 	拔9   跋12  鈸13
 ㄅㄚˇ 	把8   鈀12  靶9
 ㄅㄚˋ 	壩24 弝11  灞25  霸21
 ㄅㄚ˙ 	杷8
-ㄅㄛ    波9  玻10  菠14 
+ㄅㄛ    	波9  玻10  菠14 
 ㄅㄛˊ 	伯7  勃9  博12  帛8  搏14  柏9  泊9   浡11  渤13  礡22  箔14  舶11  鈸13 鉑13   鏄19 
 ㄅㄛˇ 	跛12
 ㄅㄛˋ 	播16  擘17
 ㄅㄞˊ 	白5
 ㄅㄞˇ 	百6  佰8  擺20  襬22
 ㄅㄞˋ 	唄10  拜9  敗11
-ㄅㄟ    俾10  卑8  悲12  杯8  碑13  裨14
+ㄅㄟ    	俾10  卑8  悲12  杯8  碑13  裨14
 ㄅㄟˇ 	北5
 ㄅㄟˋ 	倍10  備12  孛7  悖11  背11  蓓16  貝7
-ㄅㄠ    包5  胞11  苞11
+ㄅㄠ    	包5  胞11  苞11
 ㄅㄠˇ 	保9  堡12  寶20  葆15 
 ㄅㄠˋ 	鮑16  鉋13  豹10  爆19  暴15 抱9  報12   刨7
-ㄅㄢ    斑12  搬14  扳8  頒13  般10  班11
+ㄅㄢ    	斑12  搬14  扳8  頒13  般10  班11
 ㄅㄢˇ 	阪12  闆17  舨10  版8  板8
 ㄅㄢˋ 	辦16  絆12  拌9  扮8  半5  伴7  
 ㄅㄣ   	奔9
 ㄅㄣˇ 	苯11  本5
 ㄅㄣˋ 	笨11  奔9
-ㄅㄤ    邦11  彭12  幫17
+ㄅㄤ    	邦11  彭12  幫17
 ㄅㄤˇ 	榜
 ㄅㄤˋ 	鎊18  謗17  蚌10  磅15  棒12  旁10   傍12
-ㄅㄥ    繃17  崩11
+ㄅㄥ    	繃17  崩11
 ㄅㄥˋ 	迸15  蹦18
 ㄅ一 ˇ 	比4  彼8  匕2  鄙18  筆12
 ㄅ一ˋ 	璧18  泌9  拂9  必5  弼12  庇8  幣15   壁16  俾10  陛15  閉11 避20  辟13 碧14   畢11
-ㄅ一ㄝˊ別7
-ㄅ一ㄠ  鏢19  標15  彪11
-ㄅ一ㄠˇ 表9
-ㄅ一ㄢ  編15
-ㄅ一ㄢˇ 扁 9
-ㄅ一ㄢˋ汴8  卞5  遍16  辯21
-ㄅ一ㄣ  賓14  繽20  瀕20  濱18  檳18  斌12   彬11
-ㄅ一ㄥ  并8  冰6  兵7
-ㄅ一ㄥˇ 稟13  秉8  炳9  柄9  屏11  丙5
-ㄅ一ㄥˋ并8  併10  並8
+ㄅ一ㄝˊ 	別7
+ㄅ一ㄠ   	鏢19  標15  彪11
+ㄅ一ㄠˇ 	表9
+ㄅ一ㄢ   	編15
+ㄅ一ㄢˇ 	扁 9
+ㄅ一ㄢˋ 	汴8  卞5  遍16  辯21
+ㄅ一ㄣ   	賓14  繽20  瀕20  濱18  檳18  斌12   彬11
+ㄅ一ㄥ   	并8  冰6  兵7
+ㄅ一ㄥˇ 	稟13  秉8  炳9  柄9  屏11  丙5
+ㄅ一ㄥˋ 	并8  併10  並8
 ㄅㄨˇ 	補13  捕11  哺10  卜2
 ㄅㄨˋ 	部15  簿19  步7  怖9  布5  埠11  佈7   不4
 
