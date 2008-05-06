@@ -1,16 +1,28 @@
 <html>
 <head>
-<title>取名字最佳筆劃產生器 v0.0.2.0</title>
+<title>取名字最佳筆劃產生器 v0.0.2.3</title>
 <meta http-equiv="Content-Type" content="text/html; charset=big5">
 <style>
 h1 { font-size:16px; font-weight:bold;}
+h2 { font-size:14px; font-weight:bold;}
 body { font-size:12px; }
+#Query1, #Query2 { display:inline; }
+fieldset legend { font-size:14px; font-weight:bold; }
 </style>
+
 <script language="javascript">
 
 	var bb1 = ",1,3,5,6,7,8,11,13,15,16,17,18,21,23,24,25,29,31,32,33,35,37,39,41,45,47,48,52,57,61 63 65,67,68,81,";
 	var bb2 = ",26,27,30,38,40,42,43,49,50,51,53,55,58,71,73,75,77,78,80,";
 	var bb3 = ",2,4,9,10,12,14,19,20,22,28,34,36,44,46,54,56,59,60,62,64,66,69,70,72,74,76,79,";
+
+	var ts3g = ",木木木,木木火,木木土,木火木,木火火,木土火,木土土,木水木,"+
+			"火木木,火木火,火木土,火火木,火火土,火土火,火土土,火土金,"+
+			"土火木,土火火,土火土,土土火,土土土,土土金,土金土,土金金,"+
+			"金土火,金土土,金土金,金金土,金水金,"+
+			"水木木,水木土,水金土,";				
+	var ts3n = ",木火土,土金水,土木火,土木木,水木火,";
+
 function CalName()
 {
 	var i3, i4;
@@ -32,12 +44,12 @@ function CalName()
 			n4 = i4;
 			//計算五格
 			g1 = n1+n2;
-			if(n1==0) g1++;
 			g2 = n2+n3;
 			g3 = n3+n4;
 			g4 = n1+n4;
 			ga = n1+n2+n3+n4;
-			if(n1==0) g4++;
+			if(n1==0) {g1++; g4++;}
+
 			//八十一吉凶數
 			if(g2 > 80) gt=g2-80; else gt=g2;
 			if(bb1.indexOf(","+gt+",") != -1)
@@ -51,7 +63,7 @@ function CalName()
 						if(ga > 80) gt=ga-80; else gt=ga;
 						if(bb1.indexOf(","+gt+",") != -1)
 						{
-							NameCountList.innerHTML += "姓名筆劃："+ n1 +" "+ n2 +" "+ n3 +" "+ n4 +" 五格："+ g1+Convert5s(g1) +" "+ g2+Convert5s(g2) +" "+ g3+Convert5s(g3) +" "+ g4+Convert5s(g4) +" "+ ga+Convert5s(ga) +"<br />";
+							NameCountList.innerHTML += "姓名筆劃："+ n1 +" "+ n2 +" "+ n3 +" "+ n4 +"，　五格：天格-"+ g1+Convert5s(g1) +" 人格-"+ g2+Convert5s(g2) +" 地格-"+ g3+Convert5s(g3) +" 外格-"+ g4+Convert5s(g4) +" 總格-"+ ga+Convert5s(ga) +"，　三才配置-" + Convert3Ts(Convert5s(g1)+Convert5s(g2)+Convert5s(g3)) + "<br />";
 						}
 					}
 				}
@@ -77,19 +89,18 @@ function CalOldName()
 	n3 = parseInt(document.getElementById("OldName3").value);
 	n4 = parseInt(document.getElementById("OldName4").value);
 
-			//計算五格
-			g1 = n1+n2;
-			if(n1==0) g1++;
-			g2 = n2+n3;
-			g3 = n3+n4;
-			g4 = n1+n4;
-			ga = n1+n2+n3+n4;
-			if(n1==0) g4++;
-			//八十一吉凶數
+	//計算五格
+	g1 = n1+n2;
+	g2 = n2+n3;
+	g3 = n3+n4;
+	g4 = n1+n4;
+	ga = n1+n2+n3+n4;
+	if(n1==0) {g1++; g4++;}
+	//八十一吉凶數
 	NameCountList.innerHTML = "姓名筆劃："+ n1 +" "+ n2 +" "+ n3 +" "+ n4 +"<br />" +
 		"五格：<br/>天格-"+ ConvertGB(g1)+g1+Convert5s(g1) +"<br/>人格-"+ ConvertGB(g2)+g2+Convert5s(g2) +"<br/>地格-"+ ConvertGB(g3)+g3+Convert5s(g3) +"<br/>外格-"+ ConvertGB(g4)+g4+Convert5s(g4) +"<br/>總格-"+ ConvertGB(ga)+ga+Convert5s(ga) +"<br />";
 }
-
+/*查筆劃吉凶*/
 function ConvertGB(g)
 {
 	var hr;
@@ -99,47 +110,78 @@ function ConvertGB(g)
 	if(bb3.indexOf(","+g+",") != -1) hr = "凶";
 	return hr;
 }
+/*五格查五行*/
 function Convert5s(g)
 {
 	var s5 = new Array('水','木','木','火','火','土','土','金','金','水');
 	return s5[g%10];
 }
-
+/*三才配置*/
+function Convert3Ts(ts3)
+{
+	var hr = "";
+	if(ts3g.indexOf(","+ts3+",") != -1) hr = "吉";
+	else if(ts3n.indexOf(","+ts3+",") != -1) hr = "中平";
+	return hr;
+}
 </script>
 </head>
 <body>
-<h1>取名字最佳筆劃產生器 v0.0.2.0 2006/04/23</h1><br />
+<h1>取名字最佳筆劃產生器 v0.0.2.3 2006/04/25</h1><br />
+<h2>「名字最佳筆劃」意思是，五格全部符合八十一吉凶數的吉數</h2><br />
+
+<fieldset>
+<legend>作者資訊</legend>
 作者：<a href="http://rt.openfoundry.org/Foundry/User/?SearchType=User&User=58906">wangaguo</a><br />
 您可以<a href="http://rt.openfoundry.org/Foundry/Project/Tracker/?Queue=549">在這裏</a>提供意見及需求，如果我有空的話．．．<br />
 想參與改進請加入 "<a href="http://rt.openfoundry.org/Foundry/Project/?Queue=549">我要取名字</a>" 專案．<br />
-<hr>
+</fieldset>
+
+<hr />
 
 <fieldset>
-<legend>查詢取名字最佳筆劃</legend>
-請填入姓的筆劃，單姓請在"姓１"補上０<br />
+<legend>取名字的知識</legend>
+取名字需要了解的 1.「五格三才」2.「八十一吉凶數」3.「五行相生」4.「三才配置」，參考<a href="http://4baby.hypermart.net/name/name.htm">嬰兒網－算筆劃取個好名字</a><br />
+要注某些部首的字，要依原形的筆劃計算，參考<a href="http://4baby.hypermart.net/name/c/how5.htm">嬰兒網－取名字的第一步</a><br />
 查看筆劃吉凶　<a href="http://you168.idv.tw/lm04.htm">命名筆劃吉凶參考</a><br />
+查字的筆劃 <a href="http://www.cns11643.gov.tw/seeker/index.jsp">漢字庫</a> <a href="http://www.cns11643.gov.tw/">全字庫</a><br />
+查字的意思 <a href="http://140.111.34.46/dict/">國語辭典</a> <a href="http://140.111.1.43/">國語小字典</a><br />
+</fieldset>
+
+<fieldset>
+<legend>取名字的步驟</legend>
+１．先查詢姓的筆劃。
+２．使用「取名字最佳筆劃產生器」。
+３．選擇好的「三才配置」，及喜歡的筆劃。
+４．依筆劃去找出名字的組合。
+</fieldset>
+
+<hr>
+
+<fieldset id="Query1">
+<legend>查詢取名字最佳筆劃</legend>
+請填入姓的筆劃，單姓請在「姓1」補上0<br />
 姓1
-<input id="Name1" type="text" value="" maxlength="2" style="width:20px;" />
+<input id="Name1" type="text" value="0" maxlength="2" style="width:20px;" />
 姓2
 <input id="Name2" type="text" value="" maxlength="2" style="width:20px;" />
 <input type="button" value="找" onclick="CalName();" />
 </fieldset>
-<fieldset>
+<fieldset id="Query2">
 <legend>查詢名字取的好不好</legend>
-請填入姓名的筆劃，單姓請在"姓１"補上０<br />
-查看筆劃吉凶　<a href="http://you168.idv.tw/lm04.htm">命名筆劃吉凶參考</a><br />
+請填入姓名的筆劃，單姓請在「姓1」補上0，單名在「名2」填0<br />
 姓1
-<input id="OldName1" type="text" value="" maxlength="2" style="width:20px;" />
+<input id="OldName1" type="text" value="0" maxlength="2" style="width:20px;" />
 姓2
 <input id="OldName2" type="text" value="" maxlength="2" style="width:20px;" />
 名1
 <input id="OldName3" type="text" value="" maxlength="2" style="width:20px;" />
 名2
-<input id="OldName4" type="text" value="" maxlength="2" style="width:20px;" />
+<input id="OldName4" type="text" value="0" maxlength="2" style="width:20px;" />
 <input type="button" value="查" onclick="CalOldName();" />
 </fieldset>
 <fieldset>
-<legend>結果顯示</legend>
+<legend>查詢結果顯示</legend>
 <div id="NameCountList">
 
 </div>
@@ -148,6 +190,8 @@ function Convert5s(g)
 
 
 <pre>
+中文姓名產生器 v3.3 http://www.richyli.com/name/index.asp
+夢幻筆名產生器 http://www.richyli.com/name/novel.asp
 ＃參考網址
 百合命相廣場 http://www.lead.idv.tw
 命 名 筆 劃 吉 凶 參 考 http://you168.idv.tw/lm04.htm
