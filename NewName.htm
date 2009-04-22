@@ -1,7 +1,7 @@
 ﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
 <html>
 <head>
-<title>取名字最佳筆劃產生器 v1.6.0.2</title>
+<title>取名字最佳筆劃產生器 v1.6.0.5</title>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
 <meta http-equiv="Content-Language" content="ZH-TW" />
 <meta name="keywords" content="命名, 寶寶, Baby, 取名字, 筆劃, 五格, 三才, 八十一吉數, 自由軟體鑄造場, OSSF, OpenFoundry, 專案開發平台" />
@@ -25,7 +25,13 @@
 	fieldset legend { font-size:14px; font-weight:bold; color:#1B426F; }
 	input.button { background-color:#A4C6EF; }
 </style>
-
+<script type="text/javascript">
+<!--
+  $ = function(elementId) {
+    return document.getElementById(elementId);
+  }
+-->
+</script>
 <script type="text/javascript">
 <!--
 //八十一吉數
@@ -38,13 +44,17 @@ var bb3 = ",2,4,9,10,12,14,19,20,22,28,34,36,44,46,54,56,59,60,62,64,66,69,70,72
 */
 function CalName()
 {
+  if(/^[\d]*$/.test($("Name1").value) == false || /^[1-9]\d?$/.test($("Name2").value) == false) { alert('單姓請在「姓1」補上0，「姓2」必需是大於0的數字'); return; }
+  if(/^[1-9]\d?$/.test($("maxwcount").value) == false) { alert('「名字筆劃上限」必需是大於0的數字'); return; }
+	
 	var i3, i4; //筆劃迴圈
 	var N4 = new Array(0, 0, 0, 0) //姓1 姓2 名1 名2
 	var G5; //五格-天 人 地 外 總
 	var gt;
-	var maxwcount = document.getElementById("maxwcount").value; //名字的筆劃上限
-	N4[0] = parseInt(document.getElementById("Name1").value);
-	N4[1] = parseInt(document.getElementById("Name2").value);
+	var maxwcount = $("maxwcount").value; //名字的筆劃上限
+	if($("Name1").value == '') $("Name1").value = '0'; //「姓1」自動補0
+	N4[0] = parseInt($("Name1").value, 10);
+	N4[1] = parseInt($("Name2").value, 10);
 	Monitor.innerHTML = "";
 	
 	for(i3=1; i3<=maxwcount; i3++)
@@ -70,15 +80,24 @@ function CalName()
 */
 function CalOldName()
 {
+  if (/^[\d]*$/.test($("OldName1").value) == false ||
+      /^[1-9]\d?$/.test($("OldName2").value) == false ||
+      /^[1-9]\d?$/.test($("OldName3").value) == false ||
+      /^[\d]*$/.test($("OldName4").value) == false) 
+  { alert('單姓請在「姓1」補上0，「姓2」「名1」必需是大於0的數字，單名請在「名2」補上0'); return; }
+
+  
 	var N4 = new Array(0, 0, 0, 0) //姓1 姓2 名1 名2
 	var G5; //五格-天 人 地 外 總
 	var gt;
 
-	var Monitor = document.getElementById("Monitor");
-	N4[0] = parseInt(document.getElementById("OldName1").value);
-	N4[1] = parseInt(document.getElementById("OldName2").value);
-	N4[2] = parseInt(document.getElementById("OldName3").value);
-	N4[3] = parseInt(document.getElementById("OldName4").value);
+	var Monitor = $("Monitor");
+	if ($("OldName1").value == '') $("OldName1").value = '0'; //「姓1」自動補0
+	N4[0] = parseInt($("OldName1").value, 10);
+	N4[1] = parseInt($("OldName2").value, 10);
+	N4[2] = parseInt($("OldName3").value, 10);
+	if ($("OldName4").value == '') $("OldName4").value = '0'; //「名2」自動補0
+	N4[3] = parseInt($("OldName4").value, 10);
 
 	G5 = Cal5G(N4); //計算五格
 	//八十一吉凶數
@@ -147,7 +166,7 @@ function Convert3Ts(ts3)
 var Monitor;
 function OnLoad()
 {
-	Monitor = document.getElementById("Monitor"); //結果顯示框
+	Monitor = $("Monitor"); //結果顯示框
 }
 
 function trim(str) { return str.replace(/^[\s]*|[\s]*$/g, ""); }
@@ -155,13 +174,12 @@ function trim(str) { return str.replace(/^[\s]*|[\s]*$/g, ""); }
 /*找字的筆劃*/
 function FindStroke()
 {
-	var word = trim(document.getElementById("word").value).split('');
-	//alert(word.length);
-	if(word.length == 0) {alert('請輸入查詢的字, 可以是多個字'); return;}
+  if(/^[\u4E00-\u9FA0]+$/.test($("word").value) == false) { alert('請輸入查筆劃的字 必需是中文字'); return; }
+  var word = $("word").value.split('');
 	Monitor.innerHTML = "";
 	for(i=0; i<word.length; i++)
 	{
-		eval('a = document.getElementById("WordDB").innerHTML.match(/\\s' + word[i] + '(\\d*)/);');
+		eval('a = $("WordDB").innerHTML.match(/\\s' + word[i] + '(\\d*)/);');
 		if(a != null) Monitor.innerHTML += word[i] + " " + a[a.length-1] + "劃<br/>";
 	}
 }
@@ -169,9 +187,9 @@ function FindStroke()
 /*找注音的字*/
 function FindWordByPhonetic()
 {
-	var word = trim(document.getElementById("word").value);
-	if(word == "") {alert('請輸入查詢的注音, 可以是不完整的'); return;}
-	eval('a = document.getElementById("WordDB").innerHTML.match(/^' + word + '(.*)/g);');
+  if (/^[[\u3105-\u312C˙ˊˇˋ]+$/.test($("word").value) == false) { alert('請輸入查詢的注音 必需是注音符號'); return; }
+  var word = $("word").value;
+	eval('a = $("WordDB").innerHTML.match(/^' + word + '(.*)/gm);');
 	
 	Monitor.innerHTML = "";
 	for(i=0; i<a.length; i++) 
@@ -181,9 +199,9 @@ function FindWordByPhonetic()
 /*找筆劃的字*/
 function FindWordByStroke()
 {
-	var word = trim(document.getElementById("word").value);
-	if(word == "") return;
-	eval('a = document.getElementById("WordDB").innerHTML.match(/(.\\D)' + word + '\\D/g);');
+  if (/^[\d]+$/.test($("word").value) == false) { alert('請輸入查詢的筆劃 必需是數字'); return; }
+  var word = $("word").value;
+	eval('a = $("WordDB").innerHTML.match(/(.\\D)' + word + '\\D/g);');
 
 	Monitor.innerHTML = "";
 	for(i=0; i<a.length; i++)
@@ -193,14 +211,14 @@ function FindWordByStroke()
 /*顯示說明*/
 function ShowDesc(id)
 {
-	Monitor.innerHTML = "<pre>" + document.getElementById(id).innerHTML + "</pre>";
+	Monitor.innerHTML = "<pre>" + $(id).innerHTML + "</pre>";
 }
 -->
 </script>
 </head>
 
 <body onload="OnLoad();">
-<h1>取名字最佳筆劃產生器 v1.6.0.2 2008/12/19</h1>
+<h1>取名字最佳筆劃產生器 v1.6.0.5 2009/04/22</h1>
 <h2>「名字最佳筆劃」意思是，五格全部符合八十一吉凶數的吉數</h2>
 
 <fieldset>
@@ -217,7 +235,7 @@ function ShowDesc(id)
 只包函的大部份的常用字，內容從<a href="http://www.ira.org.tw/Fate/23.htm">常用字筆劃查詢</a>來的，
 若找不到請自行計算.<br/>
 
-<input id="word" type="text" size="6"/> <input type="button" value="找筆劃" class="button" onclick="FindStroke();"/>
+<input id="word" type="text" maslength="4" style="width:60px;" /> <input type="button" value="找筆劃" class="button" onclick="FindStroke();"/>
 <input type="button" value="注音找字" class="button" onclick="FindWordByPhonetic();"/>
 <input type="button" value="筆劃找字" class="button" onclick="FindWordByStroke();"/><br />
 </fieldset>
@@ -266,6 +284,7 @@ function ShowDesc(id)
 
 <fieldset>
 <legend>版本記錄</legend>
+1.6.0.5 (2009/04/22)增加欄位的格式檢查。修正程式及bug。筆劃修正。<br/>
 1.6.0.2 (2008/12/19)修正一些字的筆劃<br/>
 1.6.0.2 (2008/12/19)修正檔案的編碼成utf-8<br/>
 1.6.0.1 (2008/10/08)修改作者資訊<br/>
@@ -1373,7 +1392,7 @@ http://tw.myblog.yahoo.com/jw!e8Tv5qKYFRn0OhAZ4evjeU_x/article?mid=45&prev=47&ne
 ㄘㄠˊ 	螬17  漕15  槽15  曹11
 ㄘㄠˇ 	草14  懆17
 ㄘㄡˋ 	輳16  腠15  簇17  湊13
-ㄘㄢ    	驂21  餐14  參11
+ㄘㄢ    	驂21  餐16  參11
 ㄘㄢˊ 	蠶24  殘12  慚15
 ㄘㄢˇ 	憯16  慘15
 ㄘㄢˋ 	粲13  璨18  燦17
